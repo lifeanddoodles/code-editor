@@ -18,6 +18,7 @@ interface ButtonProps {
   name?: string;
   id?: string;
   'aria-label'?: string;
+  role?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,6 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   name,
   id,
   'aria-label': ariaLabel,
+  role,
 }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) onClick(event);
@@ -37,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
       id={id}
       onClick={(event) => handleClick(event)}
       aria-label={ariaLabel}
+      role={role}
     >
       {label}
     </StyledButton>

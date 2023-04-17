@@ -1,25 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import Group, { GroupProps } from './Group';
 
-const StyledButtonGroup = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: 640px;
+const StyledButtonGroup = styled(Group)`
   margin-block: 1rem;
   column-gap: 1rem;
 `;
 
-interface ButtonGroupProps {
-  children:
-    | boolean
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-}
-
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ children }) => {
-  return <StyledButtonGroup role='group'>{children}</StyledButtonGroup>;
+const ButtonGroup: React.FC<GroupProps> = ({
+  children,
+  className,
+  id,
+  'aria-label': ariaLabel,
+}) => {
+  return (
+    <StyledButtonGroup className={className} id={id} aria-label={ariaLabel}>
+      {children}
+    </StyledButtonGroup>
+  );
 };
 
 export default ButtonGroup;
