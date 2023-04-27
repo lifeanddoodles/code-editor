@@ -90,6 +90,7 @@ function App() {
     emmet: true,
     lineWrapping: enableLineWrapping,
     indentUnit: INDENT_VALUES.TABS,
+    lint: true,
   });
   const [html, setHtml] = useState(`<!DOCTYPE html>
   <html lang="en">
@@ -193,6 +194,7 @@ function App() {
                 indentUnit: INDENT_VALUES.TABS,
                 indentWidth: +config.indentWidth,
                 emmet: config.emmet,
+                lint: true,
               }}
             />
             <EditorContainer
@@ -200,7 +202,13 @@ function App() {
               value={css}
               onChange={setCss}
               displayName='CSS'
-              editorSettings={config}
+              editorSettings={{
+                lineWrapping: enableLineWrapping,
+                indentUnit: INDENT_VALUES.TABS,
+                indentWidth: +config.indentWidth,
+                emmet: config.emmet,
+                lint: true,
+              }}
             />
           </Column>
           <Column className='code-preview'>

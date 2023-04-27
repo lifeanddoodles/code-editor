@@ -20,6 +20,7 @@ export interface EditorSettings {
   indentUnit?: INDENT_VALUES;
   lineWrapping?: boolean;
   emmet?: boolean;
+  lint?: boolean;
 }
 
 export interface EditorProps {
