@@ -9,9 +9,11 @@ import EditorContainer from './components/EditorContainer';
 import Iframe from './components/Iframe';
 import Row from './components/Row';
 import Toolbar from './components/Toolbar';
-import { INDENT_VALUES, LANGUAGES, Translation } from './interfaces';
+import { CODE_SAMPLES } from './data/code';
+import { lineWrappingLabel, title } from './data/uiText';
+import { CodeSampleProps, INDENT_VALUES, LANGUAGES } from './interfaces';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -53,26 +55,6 @@ const StyledContainer = styled.div`
   }
 `;
 
-const title: Translation = {
-  en: 'Hinting Email Code Editor',
-  es: 'Editor de Código de Email',
-};
-
-const lineWrappingLabel: Translation = {
-  en: 'Line wrapping',
-  es: 'Ajuste de línea',
-};
-
-const htmlInstructions: Translation = {
-  en: `Start editing your ${LANGUAGES.HTML} here`,
-  es: `Empieza a editar tu ${LANGUAGES.HTML} aquí.`,
-};
-
-const cssInstructions: Translation = {
-  en: `Write ${LANGUAGES.CSS} styles here`,
-  es: `Escribe estilos ${LANGUAGES.CSS} aquí.`,
-};
-
 const Container = (props: {
   children:
     | boolean
@@ -92,24 +74,14 @@ function App() {
     indentUnit: INDENT_VALUES.TABS,
     lint: true,
   });
-  const [html, setHtml] = useState(`<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Email template</title>
-    </head>
-    <body>
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
-        <tr>
-          <td class="container">
-            <h1>${htmlInstructions[config.lang]}</h1>
-          </td>
-        </tr>
-      </table>
-    </body>
-  </html>`);
-  const [css, setCss] = useState(`/* ${cssInstructions[config.lang]} */`);
+  const htmlObj = getLanguageSetup(LANGUAGES.HTML);
+  const cssObj = getLanguageSetup(LANGUAGES.CSS);
+  const [html, setHtml] = useState(
+    htmlObj?.getInitialCode(htmlObj?.instructions[config.lang]) || '',
+  );
+  const [css, setCss] = useState(
+    () => cssObj?.getInitialCode(cssObj?.instructions[config.lang]) || '',
+  );
   const [srcDoc, setSrcDoc] = useState('');
 
   const handleClick = (
@@ -119,6 +91,21 @@ function App() {
     const target = event?.target as HTMLButtonElement;
     setConfig({ ...config, [key]: target.name });
   };
+
+  function getLanguageSetup(
+    lang: keyof typeof LANGUAGES,
+  ): CodeSampleProps | undefined {
+    const match = CODE_SAMPLES.find((item) => lang === item.language);
+    if (!match) return;
+    const { language, label, instructions, getInitialCode } = match;
+
+    return {
+      language,
+      label,
+      instructions,
+      getInitialCode,
+    };
+  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -184,32 +171,38 @@ function App() {
             gridAutoRows={'min(320px, 50%)'}
             rowGap={'1rem'}
           >
-            <EditorContainer
-              language={LANGUAGES.HTML}
-              value={html}
-              onChange={setHtml}
-              displayName='HTML'
-              editorSettings={{
-                lineWrapping: enableLineWrapping,
-                indentUnit: INDENT_VALUES.TABS,
-                indentWidth: +config.indentWidth,
-                emmet: config.emmet,
-                lint: true,
-              }}
-            />
-            <EditorContainer
-              language={LANGUAGES.CSS}
-              value={css}
-              onChange={setCss}
-              displayName='CSS'
-              editorSettings={{
-                lineWrapping: enableLineWrapping,
-                indentUnit: INDENT_VALUES.TABS,
-                indentWidth: +config.indentWidth,
-                emmet: config.emmet,
-                lint: true,
-              }}
-            />
+            {htmlObj && html !== '' && (
+              <EditorContainer
+                language={htmlObj?.language}
+                value={html}
+                onChange={setHtml}
+                displayName={htmlObj?.label}
+                editorSettings={{
+                  lineWrapping: enableLineWrapping,
+                  indentUnit: INDENT_VALUES.TABS,
+                  indentWidth: +config.indentWidth,
+                  emmet: config.emmet,
+                  gutters: ['CodeMirror-lint-markers'],
+                  lint: true,
+                }}
+              />
+            )}
+            {cssObj && css !== '' && (
+              <EditorContainer
+                language={cssObj?.language}
+                value={css}
+                onChange={setCss}
+                displayName={cssObj?.label}
+                editorSettings={{
+                  lineWrapping: enableLineWrapping,
+                  indentUnit: INDENT_VALUES.TABS,
+                  indentWidth: +config.indentWidth,
+                  emmet: config.emmet,
+                  gutters: ['CodeMirror-lint-markers'],
+                  lint: true,
+                }}
+              />
+            )}
           </Column>
           <Column className='code-preview'>
             <Iframe
@@ -221,9 +214,9 @@ function App() {
           </Column>
         </Row>
       </Container>
-      <footer>
+      {/* <footer>
         <p>2023</p>
-      </footer>
+      </footer> */}
     </>
   );
 }

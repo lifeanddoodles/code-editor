@@ -2,7 +2,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 // import { lintGutter, linter, openLintPanel } from "@codemirror/lint";
-import { linter, lintGutter, lintKeymap } from '@codemirror/lint';
+import { Diagnostic, lintGutter, lintKeymap, linter } from '@codemirror/lint';
 import { EditorState, Extension } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, keymap } from '@codemirror/view';
@@ -16,8 +16,14 @@ import { EditorProps, LANGUAGES } from '../interfaces';
 
 const themes: any = { oneDark };
 
+const htmlConfig = {
+  matchClosingTags: true,
+  selfClosingTags: true,
+  autoCloseTags: true,
+};
+
 const LANGUAGES_SETUP: any = {
-  HTML: html(),
+  HTML: html(htmlConfig),
   CSS: css(),
 };
 
@@ -36,30 +42,32 @@ export default function useCodeMirror({
     onChange(view.state.doc.toString());
   });
 
-  const html_linter = (view: EditorView) => {
-    var rulesets: Ruleset = {
+  const htmlLinter = (view: EditorView): Diagnostic[] => {
+    const rulesets: Ruleset = {
       'doctype-first': false,
-      'doctype-html5': true,
-      // "tags-check": true,
       'tag-pair': true,
       'tag-self-close': true,
       'tagname-lowercase': true,
       'tagname-specialchars': true,
       'empty-tag-not-self-closed': true,
       'src-not-empty': true,
-      // "href-abs-or-rel": true,
       'attr-no-duplication': true,
+      'attr-lowercase': true,
+      'attr-value-double-quotes': true,
+      'spec-char-escape': true,
+      'id-unique': true,
     };
-    var found = [];
-    var results = HTMLHint.verify(value, rulesets),
-      message = null;
-    for (var i = 0; i < results.length; i++) {
+    let found = [];
+    let message = null;
+    const results = HTMLHint.verify(value, rulesets);
+
+    for (let i = 0; i < results.length; i++) {
       message = results[i];
-      var startLine = message.line - 1,
+      const startLine = message.line - 1,
         endLine = message.line,
         startCol = message.col,
         endCol = message.col;
-      // console.log(startLine, endLine, startCol, endCol);
+
       found.push({
         from: startCol,
         to: endCol,
@@ -71,8 +79,8 @@ export default function useCodeMirror({
   };
 
   const emmetExtension = useEmmetExtension(language, editorSettings!, view!);
-
   const uiExtensions = useExtensions(editorSettings, view!);
+
   const extensionsAll: Extension[] = useMemo(
     () =>
       [
@@ -82,17 +90,18 @@ export default function useCodeMirror({
          */
         emmetExtension,
         basicSetup,
-        LANGUAGES_SETUP[language],
         keymap.of([...defaultKeymap, ...lintKeymap, indentWithTab]),
+        LANGUAGES_SETUP[language],
         lintGutter(),
-        language === LANGUAGES.HTML && linter(html_linter),
-        ...(theme !== 'default' ? themes[theme] : []),
+        language === LANGUAGES.HTML ? linter(htmlLinter) : [],
         onUpdate,
+        ...(theme !== 'default' ? themes[theme] : []),
         ...(extensions ?? []),
         ...[uiExtensions],
       ].filter(Boolean),
     [],
   );
+
   useEffect(() => {
     const editorState = EditorState.create({
       doc: value,

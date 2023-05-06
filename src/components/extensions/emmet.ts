@@ -7,14 +7,12 @@ import { useEffect } from 'react';
 import { useExtensionCompartment } from '../../hooks/useExtensionCompartment';
 import { EditorSettings, LANGUAGES } from '../../interfaces';
 
-const emmetSupportedModes = [LANGUAGES.HTML, LANGUAGES.CSS];
-
-const validEmmetEditorMode = (mode: string) => {
-  return emmetSupportedModes.includes(mode);
+const validEmmetEditorMode = (mode: keyof typeof LANGUAGES) => {
+  return Object.keys(LANGUAGES).includes(mode);
 };
 
 export function useEmmetExtension(
-  language: string,
+  language: keyof typeof LANGUAGES,
   editorSettings: EditorSettings,
   editorView: EditorView,
 ) {

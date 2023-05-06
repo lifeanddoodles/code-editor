@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export const LANGUAGES = {
-  CSS: 'CSS',
-  HTML: 'HTML',
-};
+export enum LANGUAGES {
+  CSS = 'CSS',
+  HTML = 'HTML',
+}
 
 export enum INDENT_VALUES {
   TABS = 'Tabs',
@@ -14,18 +14,26 @@ export interface Translation {
   [key: string]: string;
 }
 
+export interface CodeSampleProps {
+  language: keyof typeof LANGUAGES;
+  label: string;
+  instructions: Translation;
+  getInitialCode: (arg: string) => string;
+}
+
 export interface EditorSettings {
   theme?: string;
   indentWidth?: number;
   indentUnit?: INDENT_VALUES;
   lineWrapping?: boolean;
   emmet?: boolean;
+  gutters?: string[];
   lint?: boolean;
 }
 
 export interface EditorProps {
   displayName?: string;
-  language?: string;
+  language?: keyof typeof LANGUAGES;
   value: string;
   onChange: Dispatch<SetStateAction<string>>;
   theme?: string;

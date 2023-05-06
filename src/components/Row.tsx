@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const StyledRow = styled.div`
   display: grid;
+  width: 100%;
   max-width: 100%;
 
   @media screen and (min-width: 640px) {
