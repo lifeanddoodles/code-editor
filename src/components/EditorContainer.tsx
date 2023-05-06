@@ -10,6 +10,7 @@ const EditorContainer: FC<EditorProps> = ({
   theme = 'oneDark',
   extensions,
   editorSettings,
+  handleUpdate,
 }) => {
   return (
     <div className={`code-editor code-editor__${language}`}>
@@ -23,6 +24,7 @@ const EditorContainer: FC<EditorProps> = ({
         editorSettings={editorSettings}
         theme={theme}
         extensions={extensions}
+        handleUpdate={handleUpdate}
       />
     </div>
   );

@@ -34,12 +34,16 @@ export default function useCodeMirror({
   theme = 'oneDark',
   extensions,
   editorSettings,
+  handleUpdate,
 }: EditorProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [view, setView] = useState<EditorView | undefined>();
 
   const onUpdate = EditorView.updateListener.of((view) => {
-    onChange(view.state.doc.toString());
+    onChange(() => {
+      handleUpdate(language, view.state.doc.toString());
+      return view.state.doc.toString();
+    });
   });
 
   const htmlLinter = (view: EditorView): Diagnostic[] => {

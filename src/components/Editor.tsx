@@ -9,6 +9,7 @@ const Editor: FC<EditorProps> = ({
   theme = 'oneDark',
   extensions,
   editorSettings,
+  handleUpdate,
 }) => {
   const { ref } = useCodeMirror({
     value,
@@ -17,6 +18,7 @@ const Editor: FC<EditorProps> = ({
     editorSettings,
     theme,
     extensions,
+    handleUpdate,
   });
 
   return (

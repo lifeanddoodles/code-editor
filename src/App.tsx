@@ -4,14 +4,15 @@ import './App.css';
 import Button from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
 import Checkbox from './components/Checkbox';
+import CodeEditorsPane from './components/CodeEditorsPane';
 import Column from './components/Column';
-import EditorContainer from './components/EditorContainer';
 import Iframe from './components/Iframe';
 import Row from './components/Row';
 import Toolbar from './components/Toolbar';
+import { useCodesContentContext } from './context';
 import { CODE_SAMPLES } from './data/code';
 import { lineWrappingLabel, title } from './data/uiText';
-import { CodeSampleProps, INDENT_VALUES, LANGUAGES } from './interfaces';
+import { INDENT_VALUES } from './interfaces';
 
 const StyledContainer = styled.main`
   display: flex;
@@ -74,14 +75,7 @@ function App() {
     indentUnit: INDENT_VALUES.TABS,
     lint: true,
   });
-  const htmlObj = getLanguageSetup(LANGUAGES.HTML);
-  const cssObj = getLanguageSetup(LANGUAGES.CSS);
-  const [html, setHtml] = useState(
-    htmlObj?.getInitialCode(htmlObj?.instructions[config.lang]) || '',
-  );
-  const [css, setCss] = useState(
-    () => cssObj?.getInitialCode(cssObj?.instructions[config.lang]) || '',
-  );
+  const { html, css, setHtml, setCss } = useCodesContentContext();
   const [srcDoc, setSrcDoc] = useState('');
 
   const handleClick = (
@@ -91,21 +85,6 @@ function App() {
     const target = event?.target as HTMLButtonElement;
     setConfig({ ...config, [key]: target.name });
   };
-
-  function getLanguageSetup(
-    lang: keyof typeof LANGUAGES,
-  ): CodeSampleProps | undefined {
-    const match = CODE_SAMPLES.find((item) => lang === item.language);
-    if (!match) return;
-    const { language, label, instructions, getInitialCode } = match;
-
-    return {
-      language,
-      label,
-      instructions,
-      getInitialCode,
-    };
-  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -166,44 +145,20 @@ function App() {
           </ButtonGroup>
         </Toolbar>
         <Row className='code-wrapper'>
-          <Column
-            className='code-editors'
-            gridAutoRows={'min(320px, 50%)'}
-            rowGap={'1rem'}
-          >
-            {htmlObj && html !== '' && (
-              <EditorContainer
-                language={htmlObj?.language}
-                value={html}
-                onChange={setHtml}
-                displayName={htmlObj?.label}
-                editorSettings={{
-                  lineWrapping: enableLineWrapping,
-                  indentUnit: INDENT_VALUES.TABS,
-                  indentWidth: +config.indentWidth,
-                  emmet: config.emmet,
-                  gutters: ['CodeMirror-lint-markers'],
-                  lint: true,
-                }}
-              />
-            )}
-            {cssObj && css !== '' && (
-              <EditorContainer
-                language={cssObj?.language}
-                value={css}
-                onChange={setCss}
-                displayName={cssObj?.label}
-                editorSettings={{
-                  lineWrapping: enableLineWrapping,
-                  indentUnit: INDENT_VALUES.TABS,
-                  indentWidth: +config.indentWidth,
-                  emmet: config.emmet,
-                  gutters: ['CodeMirror-lint-markers'],
-                  lint: true,
-                }}
-              />
-            )}
-          </Column>
+          <CodeEditorsPane
+            codesList={CODE_SAMPLES}
+            editorSettings={{
+              lineWrapping: enableLineWrapping,
+              indentUnit: INDENT_VALUES.TABS,
+              indentWidth: +config.indentWidth,
+              emmet: config.emmet,
+              gutters: ['CodeMirror-lint-markers'],
+              lint: true,
+            }}
+            uiLanguage={config.lang}
+            setHtml={setHtml}
+            setCss={setCss}
+          />
           <Column className='code-preview'>
             <Iframe
               srcDoc={srcDoc}

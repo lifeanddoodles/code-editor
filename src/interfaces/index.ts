@@ -39,4 +39,5 @@ export interface EditorProps {
   theme?: string;
   extensions?: Array<string | Function | Object>;
   editorSettings?: EditorSettings | undefined;
+  handleUpdate: (language: keyof typeof LANGUAGES, content: string) => void;
 }
