@@ -31,6 +31,14 @@ export interface EditorSettings {
   lint?: boolean;
 }
 
+export interface CodeEditorsPaneProps {
+  codesList: CodeSampleProps[];
+  editorSettings: EditorSettings;
+  uiLanguage: string;
+  setHtml: Dispatch<SetStateAction<string>> | null;
+  setCss: Dispatch<SetStateAction<string>> | null;
+}
+
 export interface EditorProps {
   displayName?: string;
   language?: keyof typeof LANGUAGES;

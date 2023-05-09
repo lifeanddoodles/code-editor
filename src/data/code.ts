@@ -1,6 +1,6 @@
-import { LANGUAGES } from '../interfaces';
+import { CodeSampleProps, LANGUAGES } from '../interfaces';
 
-export const CODE_SAMPLES = [
+export const CODE_SAMPLES: CodeSampleProps[] = [
   {
     language: LANGUAGES.HTML,
     label: 'HTML',

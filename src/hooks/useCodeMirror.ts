@@ -8,7 +8,7 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, keymap } from '@codemirror/view';
 import { basicSetup } from 'codemirror';
 import { HTMLHint } from 'htmlhint';
-import { Ruleset } from 'htmlhint/types';
+import { Hint, Ruleset } from 'htmlhint/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useEmmetExtension } from '../components/extensions/emmet';
 import { useExtensions } from '../hooks/useExtensions';
@@ -46,7 +46,7 @@ export default function useCodeMirror({
     });
   });
 
-  const htmlLinter = (view: EditorView): Diagnostic[] => {
+  // TODO: Make lint update onChange
     const rulesets: Ruleset = {
       'doctype-first': false,
       'tag-pair': true,
@@ -61,9 +61,10 @@ export default function useCodeMirror({
       'spec-char-escape': true,
       'id-unique': true,
     };
+  const htmlLinter = (view: EditorView): Diagnostic[] => {
     let found = [];
     let message = null;
-    const results = HTMLHint.verify(value, rulesets);
+    const results: Hint[] = HTMLHint.verify(value, rulesets);
 
     for (let i = 0; i < results.length; i++) {
       message = results[i];

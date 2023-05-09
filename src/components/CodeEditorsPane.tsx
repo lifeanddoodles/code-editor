@@ -2,7 +2,11 @@ import { useState } from 'react';
 import Column from '../components/Column';
 import EditorContainer from '../components/EditorContainer';
 import { CODE_SAMPLES } from '../data/code';
-import { CodeSampleProps, LANGUAGES } from '../interfaces';
+import {
+  CodeEditorsPaneProps,
+  CodeSampleProps,
+  LANGUAGES,
+} from '../interfaces';
 
 function getLanguageSetup(
   lang: keyof typeof LANGUAGES,
@@ -25,7 +29,7 @@ const CodeEditorsList = ({
   uiLanguage,
   setHtml,
   setCss,
-}: any) => {
+}: CodeEditorsPaneProps): JSX.Element => {
   const handleUpdate = (language: keyof typeof LANGUAGES, content: string) => {
     switch (language) {
       case LANGUAGES.CSS:
@@ -37,35 +41,37 @@ const CodeEditorsList = ({
         break;
     }
   };
-
-  return codesList.map((codeLang: any) => {
-    const codeObj = getLanguageSetup(codeLang.language);
-    const [content, setContent] = useState(
-      codeObj?.getInitialCode(codeObj?.instructions[uiLanguage]) || '',
-    );
-    return (
-      codeObj && (
-        <EditorContainer
-          key={codeLang.language}
-          language={codeObj?.language}
-          value={content}
-          onChange={setContent}
-          displayName={codeObj?.label}
-          editorSettings={editorSettings}
-          handleUpdate={handleUpdate}
-        />
-      )
-    );
-  });
+  if (!codesList) return <h1>Error: no code samples found</h1>;
+  return (
+    <>
+      {codesList?.map((codeLang: CodeSampleProps) => {
+        const codeObj = getLanguageSetup(codeLang.language);
+        const [content, setContent] = useState(
+          codeObj?.getInitialCode(codeObj?.instructions[uiLanguage]) || '',
+        );
+        return (
+          <EditorContainer
+            key={codeLang.language}
+            language={codeObj?.language}
+            value={content}
+            onChange={setContent}
+            displayName={codeObj?.label}
+            editorSettings={editorSettings}
+            handleUpdate={handleUpdate}
+          />
+        );
+      })}
+    </>
+  );
 };
 
-const CodeEditorsPane = ({
+const CodeEditorsPane: React.FC<CodeEditorsPaneProps> = ({
   codesList,
   editorSettings,
   uiLanguage,
   setHtml,
   setCss,
-}: any) => {
+}) => {
   return (
     <Column>
       <CodeEditorsList
