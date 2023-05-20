@@ -5,9 +5,13 @@ const StyledToolbar = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 2rem;
 
   @media screen and (min-width: 640px) {
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: auto;
   }
 `;
 

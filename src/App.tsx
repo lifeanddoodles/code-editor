@@ -1,69 +1,56 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './App.css';
-import Button from './components/Button';
-import ButtonGroup from './components/ButtonGroup';
 import Checkbox from './components/Checkbox';
 import CodeEditorsPane from './components/CodeEditorsPane';
 import Column from './components/Column';
 import Iframe from './components/Iframe';
 import Row from './components/Row';
+import Select from './components/Select';
 import Toolbar from './components/Toolbar';
 import { useCodesContentContext } from './context';
 import { CODE_SAMPLES } from './data/code';
-import { lineWrappingLabel, title } from './data/uiText';
+import {
+  lineWrappingLabel,
+  spacesLabel,
+  tabsLabel,
+  title,
+} from './data/uiText';
 import { INDENT_VALUES } from './interfaces';
 
-const StyledContainer = styled.main`
+const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+
+  header,
+  footer {
+    height: auto;
+  }
+`;
+
+const SiteHeader = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 1rem;
+
+  h1 {
+    font-size: 1.5rem;
+  }
+`;
+
+const StyledContainer = styled.main`
   flex-grow: 1;
   overflow: hidden;
 
   .code-wrapper {
-    flex-grow: 1;
-  }
-
-  .code-editors {
-  }
-
-  .code-editor {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .code-editor_title {
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--secondary-color);
-    padding: 0.5rem 0.5rem 0.5rem 1rem;
-    border-top-right-radius: 0.5rem;
-    border-top-left-radius: 0.5rem;
-  }
-
-  .code-editor_ref {
-    flex-grow: 1;
-    overflow-y: hidden;
-  }
-
-  .cm-editor {
     height: 100%;
   }
 
   @media screen and (min-width: 640px) {
   }
 `;
-
-const Container = (props: {
-  children:
-    | boolean
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-}) => <StyledContainer>{props.children}</StyledContainer>;
 
 function App() {
   const [enableLineWrapping, setEnableLineWrapping] = useState(true);
@@ -86,6 +73,14 @@ function App() {
     setConfig({ ...config, [key]: target.name });
   };
 
+  const handleSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    key: string,
+  ) => {
+    const target = event?.target as HTMLSelectElement;
+    setConfig({ ...config, [key]: target.value });
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
@@ -100,11 +95,9 @@ function App() {
   }, [html, css]);
 
   return (
-    <>
-      <header>
+    <PageContainer>
+      <SiteHeader>
         <h1>{title[config.lang]}</h1>
-      </header>
-      <Container>
         <Toolbar>
           <Checkbox
             id='lineWrapping'
@@ -113,37 +106,33 @@ function App() {
             checked={enableLineWrapping}
             onChange={setEnableLineWrapping}
           />
-          <ButtonGroup>
-            <Button
-              name='2'
-              id='2'
-              onClick={(event) => handleClick(event, 'indentWidth')}
-              label={'2'}
-            />
-            <Button
-              name='4'
-              id='4'
-              onClick={(event) => handleClick(event, 'indentWidth')}
-              label={'4'}
-            />
-          </ButtonGroup>
-          <ButtonGroup>
-            <Button
-              name='en'
-              id='en'
-              onClick={(event) => handleClick(event, 'lang')}
-              label={'EN'}
-              aria-label='English'
-            />
-            <Button
-              name='es'
-              id='es'
-              onClick={(event) => handleClick(event, 'lang')}
-              label={'ES'}
-              aria-label='Español'
-            />
-          </ButtonGroup>
+          <Select
+            options={[
+              { label: '2', value: 2 },
+              { label: '4', value: 4 },
+            ]}
+            value={config.indentWidth}
+            onChange={(event) => handleSelect(event, 'indentWidth')}
+          />
+          <Select
+            options={[
+              { label: tabsLabel[config.lang], value: INDENT_VALUES.TABS },
+              { label: spacesLabel[config.lang], value: INDENT_VALUES.SPACES },
+            ]}
+            value={config.indentUnit}
+            onChange={(event) => handleSelect(event, 'indentUnit')}
+          />
+          <Select
+            options={[
+              { label: 'EN', value: 'en', ariaLabel: 'English' },
+              { label: 'ES', value: 'es', ariaLabel: 'Español' },
+            ]}
+            value={config.lang}
+            onChange={(event) => handleSelect(event, 'lang')}
+          />
         </Toolbar>
+      </SiteHeader>
+      <StyledContainer>
         <Row className='code-wrapper'>
           <CodeEditorsPane
             codesList={CODE_SAMPLES}
@@ -168,11 +157,11 @@ function App() {
             />
           </Column>
         </Row>
-      </Container>
-      {/* <footer>
+      </StyledContainer>
+      <footer>
         <p>2023</p>
-      </footer> */}
-    </>
+      </footer>
+    </PageContainer>
   );
 }
 

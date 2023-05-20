@@ -61,6 +61,7 @@ export default function useCodeMirror({
       'spec-char-escape': true,
       'id-unique': true,
     };
+
   const htmlLinter = (view: EditorView): Diagnostic[] => {
     let found = [];
     let message = null;

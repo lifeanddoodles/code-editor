@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const StyledGroup = styled.div`
   display: flex;
-  width: 100%;
 `;
 
 export interface GroupProps {

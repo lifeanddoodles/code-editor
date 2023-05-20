@@ -7,6 +7,10 @@ const StyledButton = styled.button`
   border: none;
   border-radius: var(--border-radius);
   padding: 0.65rem 1rem;
+  font-size: 1em;
+  cursor: pointer;
+  transition: filter 0.25s;
+
   :hover {
     filter: brightness(0.9);
   }

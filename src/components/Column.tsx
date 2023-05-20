@@ -4,6 +4,8 @@ const StyledColumn = styled.div<ColumnProps>`
   display: grid;
   grid-auto-flow: row;
   ${({ gridAutoRows }) => gridAutoRows && `grid-auto-rows: ${gridAutoRows};`}
+  ${({ gridTemplateRows }) =>
+    gridTemplateRows && `grid-template-rows: ${gridTemplateRows};`}
   ${({ rowGap }) => rowGap && `row-gap: ${rowGap};`}
 
   @media screen and (min-width: 640px) {
@@ -20,6 +22,7 @@ interface ColumnProps {
     | undefined;
   className?: string;
   gridAutoRows?: string;
+  gridTemplateRows?: string;
   rowGap?: string;
   id?: string;
   role?: string;
@@ -31,6 +34,7 @@ const Column: React.FC<ColumnProps> = ({
   children,
   className,
   gridAutoRows,
+  gridTemplateRows,
   rowGap,
   id,
   role,
@@ -42,6 +46,7 @@ const Column: React.FC<ColumnProps> = ({
       role={role}
       className={className}
       gridAutoRows={gridAutoRows}
+      gridTemplateRows={gridTemplateRows}
       rowGap={rowGap}
       id={id}
       aria-label={ariaLabel}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Column from '../components/Column';
+import styled from 'styled-components';
 import EditorContainer from '../components/EditorContainer';
 import { CODE_SAMPLES } from '../data/code';
 import {
@@ -7,6 +7,13 @@ import {
   CodeSampleProps,
   LANGUAGES,
 } from '../interfaces';
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: auto;
+`;
 
 function getLanguageSetup(
   lang: keyof typeof LANGUAGES,
@@ -73,7 +80,7 @@ const CodeEditorsPane: React.FC<CodeEditorsPaneProps> = ({
   setCss,
 }) => {
   return (
-    <Column>
+    <StyledContainer>
       <CodeEditorsList
         codesList={codesList}
         editorSettings={editorSettings}
@@ -81,7 +88,7 @@ const CodeEditorsPane: React.FC<CodeEditorsPaneProps> = ({
         setHtml={setHtml}
         setCss={setCss}
       />
-    </Column>
+    </StyledContainer>
   );
 };
 
