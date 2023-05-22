@@ -41,12 +41,13 @@ export default function useCodeMirror({
 
   const onUpdate = EditorView.updateListener.of((view) => {
     onChange(() => {
-      handleUpdate(language, view.state.doc.toString());
-      return view.state.doc.toString();
+      const updatedValue = view.state.doc.toString();
+      handleUpdate(language, updatedValue);
+
+      return updatedValue;
     });
   });
 
-  // TODO: Make lint update onChange
     const rulesets: Ruleset = {
       'doctype-first': false,
       'tag-pair': true,
@@ -63,9 +64,10 @@ export default function useCodeMirror({
     };
 
   const htmlLinter = (view: EditorView): Diagnostic[] => {
+    const htmlValue = view.state.doc.toString();
+    const results: Hint[] = HTMLHint.verify(htmlValue, rulesets);
     let found = [];
     let message = null;
-    const results: Hint[] = HTMLHint.verify(value, rulesets);
 
     for (let i = 0; i < results.length; i++) {
       message = results[i];
