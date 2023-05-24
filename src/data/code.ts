@@ -8,7 +8,8 @@ export const CODE_SAMPLES: CodeSampleProps[] = [
       en: `Start editing your ${LANGUAGES.HTML} here`,
       es: `Empieza a editar tu ${LANGUAGES.HTML} aquí.`,
     },
-    getInitialCode: (string: string) => `<meta />\n<p>${string}</p>`,
+    getInitialCode: (string: string) =>
+      `<div>\n\t<p>\n\t\t${string}\n\t</p>\n</div>`,
   },
   {
     language: LANGUAGES.CSS,

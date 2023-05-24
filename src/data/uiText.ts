@@ -18,3 +18,7 @@ export const spacesLabel: Translation = {
   en: 'Spaces',
   es: 'Espacios',
 };
+export const tabSizeLabel: Translation = {
+  en: 'Tab size',
+  es: 'Tamaño de tabulador',
+};

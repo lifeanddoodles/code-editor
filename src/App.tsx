@@ -13,6 +13,7 @@ import { CODE_SAMPLES } from './data/code';
 import {
   lineWrappingLabel,
   spacesLabel,
+  tabSizeLabel,
   tabsLabel,
   title,
 } from './data/uiText';
@@ -108,19 +109,21 @@ function App() {
           />
           <Select
             options={[
-              { label: '2', value: 2 },
-              { label: '4', value: 4 },
-            ]}
-            value={config.indentWidth}
-            onChange={(event) => handleSelect(event, 'indentWidth')}
-          />
-          <Select
-            options={[
               { label: tabsLabel[config.lang], value: INDENT_VALUES.TABS },
               { label: spacesLabel[config.lang], value: INDENT_VALUES.SPACES },
             ]}
             value={config.indentUnit}
             onChange={(event) => handleSelect(event, 'indentUnit')}
+          />
+          <Select
+            options={[
+              { label: '2', value: 2 },
+              { label: '4', value: 4 },
+            ]}
+            value={config.indentWidth}
+            onChange={(event) => handleSelect(event, 'indentWidth')}
+            disabled={config.indentUnit === INDENT_VALUES.SPACES}
+            label={tabSizeLabel[config.lang]}
           />
           <Select
             options={[
@@ -138,7 +141,7 @@ function App() {
             codesList={CODE_SAMPLES}
             editorSettings={{
               lineWrapping: enableLineWrapping,
-              indentUnit: INDENT_VALUES.TABS,
+              indentUnit: config.indentUnit,
               indentWidth: +config.indentWidth,
               emmet: config.emmet,
               gutters: ['CodeMirror-lint-markers'],
