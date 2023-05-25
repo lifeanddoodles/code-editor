@@ -1,20 +1,7 @@
+import { FormattedOptionProps, SelectProps } from '../interfaces';
 import Group from './Group';
 
-interface Option {
-  label: string;
-  value: string | number;
-  ariaLabel?: string;
-}
-
-interface SelectProps {
-  label?: string;
-  options: Option[];
-  value: string | number;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  disabled?: boolean;
-}
-
-const Option = ({ label, value }: Option) => {
+const Option = ({ label, value }: FormattedOptionProps) => {
   return <option value={value}>{label}</option>;
 };
 

@@ -49,3 +49,32 @@ export interface EditorProps {
   editorSettings?: EditorSettings | undefined;
   handleUpdate: (language: keyof typeof LANGUAGES, content: string) => void;
 }
+
+export interface OptionProps {
+  label: string | Translation;
+  value: string | number;
+  ariaLabel?: string;
+}
+
+export interface FormattedOptionProps extends OptionProps {
+  label: string;
+  value: string | number;
+  ariaLabel?: string;
+}
+
+export interface SelectProps {
+  label?: string;
+  options: FormattedOptionProps[];
+  value: string | number;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
+}
+
+export interface SelectUIProps {
+  label: Translation;
+  ariaLabel?: Translation;
+  options: {
+    label: string | Translation;
+    value: string | number;
+  }[];
+}

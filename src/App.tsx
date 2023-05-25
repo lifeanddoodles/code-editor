@@ -12,12 +12,12 @@ import { useCodesContentContext } from './context';
 import { CODE_SAMPLES } from './data/code';
 import {
   lineWrappingLabel,
-  spacesLabel,
-  tabSizeLabel,
-  tabsLabel,
+  selectIndentType,
+  selectTabSize,
   title,
 } from './data/uiText';
 import { INDENT_VALUES } from './interfaces';
+import { getOptions } from './utils';
 
 const PageContainer = styled.div`
   display: flex;
@@ -108,22 +108,17 @@ function App() {
             onChange={setEnableLineWrapping}
           />
           <Select
-            options={[
-              { label: tabsLabel[config.lang], value: INDENT_VALUES.TABS },
-              { label: spacesLabel[config.lang], value: INDENT_VALUES.SPACES },
-            ]}
+            options={getOptions(selectIndentType?.options, config.lang)}
             value={config.indentUnit}
             onChange={(event) => handleSelect(event, 'indentUnit')}
+            label={selectIndentType?.label[config.lang]}
           />
           <Select
-            options={[
-              { label: '2', value: 2 },
-              { label: '4', value: 4 },
-            ]}
+            options={getOptions(selectTabSize?.options, config.lang)}
             value={config.indentWidth}
             onChange={(event) => handleSelect(event, 'indentWidth')}
             disabled={config.indentUnit === INDENT_VALUES.SPACES}
-            label={tabSizeLabel[config.lang]}
+            label={selectTabSize.label[config.lang]}
           />
           <Select
             options={[
