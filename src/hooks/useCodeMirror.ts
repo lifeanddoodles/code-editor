@@ -1,14 +1,12 @@
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
+import { htmlLinter } from '../components/extensions/linters';
 import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
-// import { lintGutter, linter, openLintPanel } from "@codemirror/lint";
-import { Diagnostic, lintGutter, lintKeymap, linter } from '@codemirror/lint';
+import { lintGutter, lintKeymap, linter } from '@codemirror/lint';
 import { EditorState, Extension } from '@codemirror/state';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView, keymap } from '@codemirror/view';
 import { basicSetup } from 'codemirror';
-import { HTMLHint } from 'htmlhint';
-import { Hint, Ruleset } from 'htmlhint/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useEmmetExtension } from '../components/extensions/emmet';
 import { useExtensions } from '../hooks/useExtensions';
@@ -22,11 +20,10 @@ const htmlConfig = {
   autoCloseTags: true,
 };
 
-const LANGUAGES_SETUP: any = {
+const LANGUAGES_SETUP = {
   HTML: html(htmlConfig),
   CSS: css(),
 };
-
 export default function useCodeMirror({
   value,
   onChange,
@@ -47,44 +44,6 @@ export default function useCodeMirror({
       return updatedValue;
     });
   });
-
-    const rulesets: Ruleset = {
-      'doctype-first': false,
-      'tag-pair': true,
-      'tag-self-close': true,
-      'tagname-lowercase': true,
-      'tagname-specialchars': true,
-      'empty-tag-not-self-closed': true,
-      'src-not-empty': true,
-      'attr-no-duplication': true,
-      'attr-lowercase': true,
-      'attr-value-double-quotes': true,
-      'spec-char-escape': true,
-      'id-unique': true,
-    };
-
-  const htmlLinter = (view: EditorView): Diagnostic[] => {
-    const htmlValue = view.state.doc.toString();
-    const results: Hint[] = HTMLHint.verify(htmlValue, rulesets);
-    let found = [];
-    let message = null;
-
-    for (let i = 0; i < results.length; i++) {
-      message = results[i];
-      const startLine = message.line - 1,
-        endLine = message.line,
-        startCol = message.col,
-        endCol = message.col;
-
-      found.push({
-        from: startCol,
-        to: endCol,
-        message: message.message,
-        severity: message.type,
-      });
-    }
-    return found;
-  };
 
   const emmetExtension = useEmmetExtension(language, editorSettings!, view!);
   const uiExtensions = useExtensions(editorSettings, view!);
