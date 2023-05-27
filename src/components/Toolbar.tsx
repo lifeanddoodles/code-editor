@@ -5,9 +5,11 @@ const StyledToolbar = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2rem;
+  column-gap: 1rem;
+  flex: 1 1;
+  flex-wrap: wrap;
 
-  @media screen and (min-width: 640px) {
+  @media screen and (min-width: 480px) {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;

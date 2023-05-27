@@ -35,6 +35,7 @@ const SiteHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding-inline: 1rem;
+  gap: 2rem;
 
   h1 {
     font-size: 1.5rem;

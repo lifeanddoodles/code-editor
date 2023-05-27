@@ -39,6 +39,10 @@ const StyledEditorHeader = styled.summary`
     line-height: 1.25;
     margin: 0;
   }
+
+  :focus {
+    outline: 2px solid var(--color-focus);
+  }
 `;
 
 const EditorContainer: FC<EditorProps> = ({

@@ -14,6 +14,10 @@ const StyledButton = styled.button`
   :hover {
     filter: brightness(0.9);
   }
+
+  :focus {
+    outline: 2px solid var(--color-focus);
+  }
 `;
 
 interface ButtonProps {

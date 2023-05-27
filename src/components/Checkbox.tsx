@@ -4,7 +4,7 @@ import Group from './Group';
 import Label from './Label';
 
 const StyledCheckboxGroup = styled(Group)`
-  align-items: flex-start;
+  align-items: baseline;
   column-gap: 0.5rem;
   margin-block: 1rem;
 
@@ -13,7 +13,11 @@ const StyledCheckboxGroup = styled(Group)`
   }
 `;
 
-const StyledCheckbox = styled.input``;
+const StyledCheckbox = styled.input`
+  :focus {
+    outline: 2px solid var(--color-focus);
+  }
+`;
 
 interface CheckboxProps {
   'aria-label'?: string;
