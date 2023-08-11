@@ -1,0 +1,38 @@
+{
+  "header": {
+    "title": "Editor de Código",
+    "toolbar": {
+      "lineWrappingLabel": "Ajuste de línea",
+      "selectIndentType": {
+        "label": "Tipo de indentación",
+        "options": ["Tabuladores", "Espacios"]
+      },
+      "selectTabSize": {
+        "label": "Tamaño de tabulador",
+        "options": ["2", "4"]
+      }
+    },
+    "languageSwitcher": {
+      "label": "Cambiar idioma",
+      "options": { "en": "English", "es": "Español" }
+    },
+    "darkModeToggle": {
+      "toggleOn": "Cambiar a modo oscuro",
+      "toggleOff": "Cambiar a modo claro"
+    }
+  },
+  "codePanes": {
+    "closeButton": "Cerrar",
+    "openButton": "Abrir",
+    "instructions": {
+      "HTML": "Empieza a editar tu HTML aquí",
+      "CSS": "Escribe estilos CSS aquí"
+    },
+    "errors": {
+      "notFound": "Error: ejemplos de código no encontrados"
+    }
+  },
+  "footer": {
+    "copyright": "Derechos reservados © {{year}}."
+  }
+}

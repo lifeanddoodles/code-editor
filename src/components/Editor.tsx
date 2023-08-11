@@ -1,15 +1,14 @@
-import { FC } from 'react';
-import useCodeMirror from '../hooks/useCodeMirror';
-import { EditorProps, LANGUAGES } from '../interfaces';
+import { FC } from "react";
+import useCodeMirror from "../hooks/useCodeMirror";
+import { EditorProps, LANGUAGES } from "../interfaces";
 
 const Editor: FC<EditorProps> = ({
   language = LANGUAGES.HTML,
   value,
   onChange,
-  theme = 'oneDark',
+  theme = "oneDark",
   extensions,
   editorSettings,
-  handleUpdate,
 }) => {
   const { ref } = useCodeMirror({
     value,
@@ -18,7 +17,6 @@ const Editor: FC<EditorProps> = ({
     editorSettings,
     theme,
     extensions,
-    handleUpdate,
   });
 
   return (

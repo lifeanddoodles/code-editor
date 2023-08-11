@@ -1,7 +1,7 @@
-import { Fragment } from 'react';
-import styled from 'styled-components';
-import { FormattedOptionProps, SelectProps } from '../interfaces';
-import Group from './Group';
+import { Fragment } from "react";
+import styled from "styled-components";
+import { FormattedOptionProps, SelectProps } from "../interfaces";
+import Group from "./Group";
 
 const StyledSelect = styled.select`
   appearance: none;
@@ -44,13 +44,13 @@ const StyledCustomSelect = styled.div`
   line-height: 1.1;
   background-color: var(--neutral-color-lighter);
   display: grid;
-  grid-template-areas: 'select';
+  grid-template-areas: "select";
   align-items: center;
   position: relative;
   margin-block: 1rem;
 
   &::after {
-    content: '';
+    content: "";
     width: 0.8em;
     height: 0.5em;
     background-color: var(--select-arrow);
@@ -78,7 +78,15 @@ const Option = ({ label, value }: FormattedOptionProps) => {
   return <option value={value}>{label}</option>;
 };
 
-const Select = ({ label, options, value, onChange, disabled }: SelectProps) => {
+const Select = ({
+  label,
+  ariaLabel,
+  options,
+  value,
+  onChange,
+  id,
+  disabled,
+}: SelectProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(event);
   };
@@ -87,9 +95,15 @@ const Select = ({ label, options, value, onChange, disabled }: SelectProps) => {
 
   return (
     <SelectWrapper>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && <StyledLabel htmlFor={id}>{label}</StyledLabel>}
       <StyledCustomSelect>
-        <StyledSelect value={value} onChange={handleChange} disabled={disabled}>
+        <StyledSelect
+          id={id}
+          value={value}
+          aria-label={ariaLabel}
+          onChange={handleChange}
+          disabled={disabled}
+        >
           {options.map((option) => (
             <Option
               label={option.label}
@@ -98,7 +112,7 @@ const Select = ({ label, options, value, onChange, disabled }: SelectProps) => {
             />
           ))}
         </StyledSelect>
-        <span className='focus'></span>
+        <span className="focus"></span>
       </StyledCustomSelect>
     </SelectWrapper>
   );

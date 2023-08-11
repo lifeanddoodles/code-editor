@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import EditorContainer from '../components/EditorContainer';
-import { CODE_SAMPLES } from '../data/code';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import EditorContainer from "../components/EditorContainer";
+import { useCodesContentContext } from "../context";
+import { CODE_SAMPLES } from "../data/code";
 import {
   CodeEditorsPaneProps,
   CodeSampleProps,
   LANGUAGES,
-} from '../interfaces';
+} from "../interfaces";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -16,16 +18,15 @@ const StyledContainer = styled.div`
 `;
 
 function getLanguageSetup(
-  lang: keyof typeof LANGUAGES,
+  lang: keyof typeof LANGUAGES
 ): CodeSampleProps | undefined {
   const match = CODE_SAMPLES.find((item) => lang === item.language);
   if (!match) return;
-  const { language, label, instructions, getInitialCode } = match;
+  const { language, label, getInitialCode } = match;
 
   return {
     language,
     label,
-    instructions,
     getInitialCode,
   };
 }
@@ -33,38 +34,37 @@ function getLanguageSetup(
 const CodeEditorsList = ({
   codesList,
   editorSettings,
-  uiLanguage,
-  setHtml,
-  setCss,
 }: CodeEditorsPaneProps): JSX.Element => {
-  const handleUpdate = (language: keyof typeof LANGUAGES, content: string) => {
-    switch (language) {
-      case LANGUAGES.CSS:
-        setCss!(content);
-        break;
-      case LANGUAGES.HTML:
-      default:
-        setHtml!(content);
-        break;
-    }
-  };
-  if (!codesList) return <h1>Error: no code samples found</h1>;
+  const { t } = useTranslation("translation", { keyPrefix: "codePanes" });
+  const { handleUpdate: handleCodeUpdate } = useCodesContentContext();
+
+  if (!codesList) return <h1>{t("errors.notFound")}</h1>;
+
   return (
     <>
       {codesList?.map((codeLang: CodeSampleProps) => {
         const codeObj = getLanguageSetup(codeLang.language);
+        const instructions = t(`instructions.${codeLang.language}`);
         const [content, setContent] = useState(
-          codeObj?.getInitialCode(codeObj?.instructions[uiLanguage]) || '',
+          codeObj?.getInitialCode(instructions) || ""
         );
+
+        const handleUpdate = useCallback(
+          (content: string, language: keyof typeof LANGUAGES) => {
+            setContent(content);
+            handleCodeUpdate(content, language);
+          },
+          []
+        );
+
         return (
           <EditorContainer
             key={codeLang.language}
             language={codeObj?.language}
             value={content}
-            onChange={setContent}
+            onChange={handleUpdate}
             displayName={codeObj?.label}
             editorSettings={editorSettings}
-            handleUpdate={handleUpdate}
           />
         );
       })}
@@ -75,19 +75,10 @@ const CodeEditorsList = ({
 const CodeEditorsPane: React.FC<CodeEditorsPaneProps> = ({
   codesList,
   editorSettings,
-  uiLanguage,
-  setHtml,
-  setCss,
 }) => {
   return (
     <StyledContainer>
-      <CodeEditorsList
-        codesList={codesList}
-        editorSettings={editorSettings}
-        uiLanguage={uiLanguage}
-        setHtml={setHtml}
-        setCss={setCss}
-      />
+      <CodeEditorsList codesList={codesList} editorSettings={editorSettings} />
     </StyledContainer>
   );
 };

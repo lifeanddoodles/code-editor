@@ -1,0 +1,38 @@
+{
+  "header": {
+    "title": "Code Editor",
+    "toolbar": {
+      "lineWrappingLabel": "Line wrapping",
+      "selectIndentType": {
+        "label": "Indent type",
+        "options": ["Tabs", "Spaces"]
+      },
+      "selectTabSize": {
+        "label": "Tab size",
+        "options": ["2", "4"]
+      }
+    },
+    "languageSwitcher": {
+      "label": "Change language",
+      "options": { "en": "English", "es": "Español" }
+    },
+    "darkModeToggle": {
+      "toggleOn": "Toggle dark mode",
+      "toggleOff": "Toggle light mode"
+    }
+  },
+  "codePanes": {
+    "closeButton": "Close",
+    "openButton": "Open",
+    "instructions": {
+      "HTML": "Start editing your HTML here",
+      "CSS": "Write CSS styles here"
+    },
+    "errors": {
+      "notFound": "Error: no code samples found"
+    }
+  },
+  "footer": {
+    "copyright": "Copyright © {{year}}."
+  }
+}

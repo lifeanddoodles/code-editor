@@ -1,20 +1,21 @@
-import { FC, useState } from 'react';
-import styled from 'styled-components';
-import { EditorProps, LANGUAGES } from '../interfaces';
-import Button from './Button';
-import Editor from './Editor';
+import { FC, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { EditorProps, LANGUAGES } from "../interfaces";
+import Button from "./Button";
+import Editor from "./Editor";
 
 const StyledEditorContainer = styled.details`
   display: grid;
   grid-auto-flow: row;
-  grid-template-rows: auto ${({ open }) => (open ? '1fr' : '0')};
-  ${({ open }) => (open ? 'flex-grow: 1;' : 'flex-shrink: 1;')};
+  grid-template-rows: auto ${({ open }) => (open ? "1fr" : "0")};
+  ${({ open }) => (open ? "flex-grow: 1;" : "flex-shrink: 1;")};
   position: relative;
 
   .code-editor_ref {
     height: 100%;
     position: relative;
-    display: ${({ open }) => (open ? 'block' : 'hidden')};
+    display: ${({ open }) => (open ? "block" : "hidden")};
   }
 
   .cm-editor {
@@ -50,16 +51,20 @@ const EditorContainer: FC<EditorProps> = ({
   language = LANGUAGES.HTML,
   value,
   onChange,
-  theme = 'oneDark',
+  theme = "oneDark",
   extensions,
   editorSettings,
-  handleUpdate,
 }) => {
   const [open, setOpen] = useState<boolean>(true);
+  const { t } = useTranslation("translation", { keyPrefix: "codePanes" });
+  const label = useMemo(
+    () => (open ? t("closeButton") : t("openButton")),
+    [open]
+  );
 
-  const handleOpenToggle = () => {
+  const handleOpenToggle = useCallback(() => {
     setOpen((open) => !open);
-  };
+  }, []);
 
   return (
     <StyledEditorContainer
@@ -70,7 +75,7 @@ const EditorContainer: FC<EditorProps> = ({
         className={`code-editor_header code-editor_header__${language}`}
       >
         <h2>{displayName}</h2>
-        <Button label={open ? 'Close' : 'Open'} onClick={handleOpenToggle} />
+        <Button label={label} onClick={handleOpenToggle} />
       </StyledEditorHeader>
       <Editor
         value={value}
@@ -79,7 +84,6 @@ const EditorContainer: FC<EditorProps> = ({
         editorSettings={editorSettings}
         theme={theme}
         extensions={extensions}
-        handleUpdate={handleUpdate}
       />
     </StyledEditorContainer>
   );
