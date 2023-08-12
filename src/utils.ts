@@ -1,18 +1,8 @@
-import { Translation } from './interfaces';
+import { OptionProps } from "./interfaces";
 
-export const getOptions = (
-  options: {
-    label: string | Translation;
-    value: string | number;
-  }[],
-  language: string,
-) =>
-  options.map(
-    (option: { label: string | Translation; value: string | number }) => ({
-      label:
-        typeof option.label === 'string'
-          ? option.label
-          : option.label[language],
-      value: option.value,
-    }),
-  );
+export const getOptions = (options: OptionProps[]) =>
+  options.map((option) => ({
+    label: option.label,
+    value: option.value,
+    ariaLabel: option.ariaLabel,
+  }));

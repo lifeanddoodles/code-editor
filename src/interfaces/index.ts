@@ -8,10 +8,6 @@ export enum INDENT_VALUES {
   SPACES = "Spaces",
 }
 
-export interface Translation {
-  [key: string]: string;
-}
-
 export interface CodeSampleProps {
   language: keyof typeof LANGUAGES;
   label: string;
@@ -47,13 +43,7 @@ export interface EditorProps {
 }
 
 export interface OptionProps {
-  label: string | Translation;
-  value: string | number;
-  ariaLabel?: string;
-}
-
-export interface FormattedOptionProps extends OptionProps {
-  label: string;
+  label: string | React.ReactElement;
   value: string | number;
   ariaLabel?: string;
 }
@@ -61,22 +51,12 @@ export interface FormattedOptionProps extends OptionProps {
 export interface BaseSelectProps {
   id?: string;
   ariaLabel?: string;
-  label?: string | Translation;
-  options: FormattedOptionProps[];
+  label?: string;
   disabled?: boolean;
+  options: OptionProps[];
 }
 
 export interface SelectProps extends BaseSelectProps {
-  label?: string;
   value: string | number | undefined;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
-
-export interface SelectUIProps {
-  label: Translation;
-  ariaLabel?: Translation;
-  options: {
-    label: string | Translation;
-    value: string | number;
-  }[];
 }

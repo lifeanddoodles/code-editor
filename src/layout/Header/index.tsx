@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Checkbox from "../../components/Checkbox";
 import Select from "../../components/Select";
 import Toolbar from "../../components/Toolbar";
-import { selectIndentType, selectTabSize, title } from "../../data/uiText";
+import { selectIndentType, selectTabSize } from "../../data/uiText";
 import { ConfigProps, INDENT_VALUES } from "../../interfaces";
 import { getOptions } from "../../utils";
 
@@ -48,7 +48,7 @@ const Header = ({
 
   return (
     <SiteHeader>
-      <h1>{title[i18n.language]}</h1>
+      <h1>{t("title")}</h1>
       <Toolbar>
         <Checkbox
           id="lineWrapping"
@@ -58,25 +58,33 @@ const Header = ({
           onChange={setEnableLineWrapping}
         />
         <Select
-          options={getOptions(selectIndentType?.options, i18n.language)}
+          options={getOptions(selectIndentType?.options)}
           value={config.indentUnit}
           onChange={(event) => handleSelect(event, "indentUnit")}
-          label={selectIndentType?.label[i18n.language]}
+          label={t("toolbar.selectIndentType.label")}
         />
         <Select
-          options={getOptions(selectTabSize?.options, i18n.language)}
+          options={getOptions(selectTabSize?.options)}
           value={config.indentWidth}
           onChange={(event) => handleSelect(event, "indentWidth")}
           disabled={config.indentUnit === INDENT_VALUES.SPACES}
-          label={selectTabSize.label[i18n.language]}
+          label={t("toolbar.selectTabSize.label")}
         />
         <Select
           id="changeLanguage"
-          ariaLabel={"Change Language"}
+          ariaLabel={t("toolbar.languageSwitcher.label")}
           value={i18n.language}
           options={[
-            { label: "EN", value: "en" },
-            { label: "ES", value: "es" },
+            {
+              label: "EN",
+              ariaLabel: t("languageSwitcher.options.en"),
+              value: "en",
+            },
+            {
+              label: "ES",
+              ariaLabel: t("languageSwitcher.options.es"),
+              value: "es",
+            },
           ]}
           onChange={(event) => changeLanguage(event)}
         />

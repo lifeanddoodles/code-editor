@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import styled from "styled-components";
-import { FormattedOptionProps, SelectProps } from "../interfaces";
+import { OptionProps, SelectProps } from "../interfaces";
 import Group from "./Group";
 
 const StyledSelect = styled.select`
@@ -74,8 +74,12 @@ const StyledLabel = styled.label`
   }
 `;
 
-const Option = ({ label, value }: FormattedOptionProps) => {
-  return <option value={value}>{label}</option>;
+const Option = ({ label, value, ariaLabel }: OptionProps) => {
+  return (
+    <option value={value} aria-label={ariaLabel}>
+      {label}
+    </option>
+  );
 };
 
 const Select = ({
@@ -108,6 +112,7 @@ const Select = ({
             <Option
               label={option.label}
               value={option.value}
+              ariaLabel={option.ariaLabel}
               key={option.value}
             />
           ))}
