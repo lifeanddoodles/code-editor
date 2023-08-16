@@ -42,7 +42,8 @@ const StyledCustomSelect = styled.div`
   font-size: 1rem;
   cursor: pointer;
   line-height: 1.1;
-  background-color: var(--neutral-color-lighter);
+  background-color: var(--select-background-color);
+  color: var(--select-color);
   display: grid;
   grid-template-areas: "select";
   align-items: center;
@@ -53,10 +54,14 @@ const StyledCustomSelect = styled.div`
     content: "";
     width: 0.8em;
     height: 0.5em;
-    background-color: var(--select-arrow);
+    background-color: var(--select-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
     grid-area: select;
     justify-self: end;
+  }
+
+  :hover {
+    background-color: var(--interactive-element-background-hover);
   }
 
   label + & {

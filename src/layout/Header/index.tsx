@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Checkbox from "../../components/Checkbox";
+import DarkModeButton from "../../components/DarkModeButton";
 import Select from "../../components/Select";
 import Toolbar from "../../components/Toolbar";
 import { selectIndentType, selectTabSize } from "../../data/uiText";
@@ -88,6 +89,7 @@ const Header = ({
           ]}
           onChange={(event) => changeLanguage(event)}
         />
+        <DarkModeButton />
       </Toolbar>
     </SiteHeader>
   );
