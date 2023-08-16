@@ -1,49 +1,28 @@
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { FC, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { EditorProps, LANGUAGES } from "../interfaces";
-import Button from "./Button";
+import Details from "./Details";
 import Editor from "./Editor";
+import Summary from "./Summary";
 
-const StyledEditorContainer = styled.details`
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-rows: auto ${({ open }) => (open ? "1fr" : "0")};
-  ${({ open }) => (open ? "flex-grow: 1;" : "flex-shrink: 1;")};
-  position: relative;
-
-  .code-editor_ref {
-    height: 100%;
-    position: relative;
-    display: ${({ open }) => (open ? "block" : "hidden")};
-  }
-
-  .cm-editor {
-    height: 100%;
-  }
-
-  @media screen and (min-width: 640px) {
-  }
-`;
-
-const StyledEditorHeader = styled.summary`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--secondary-color);
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
-  border-top-right-radius: 0.5rem;
-  border-top-left-radius: 0.5rem;
-
-  h2 {
-    font-size: 1rem;
-    line-height: 1.25;
-    margin: 0;
-  }
-
-  :focus {
-    outline: 2px solid var(--color-focus);
-  }
+const StyledEditorContainer = styled(Details)`
+  ${({ open }) =>
+    open
+      ? `
+    grid-template-rows: auto 1fr;
+    flex-grow: 1;
+    
+    .code-editor_ref {
+      display: block;
+    }`
+      : `
+    grid-template-rows: auto 0;
+    flex-shrink: 1;
+    
+    .code-editor_ref {
+      display: hidden;
+    }`}
 `;
 
 const EditorContainer: FC<EditorProps> = ({
@@ -55,28 +34,38 @@ const EditorContainer: FC<EditorProps> = ({
   extensions,
   editorSettings,
 }) => {
-  const [open, setOpen] = useState<boolean>(true);
-  const { t } = useTranslation("translation", { keyPrefix: "codePanes" });
-  const label = useMemo(
-    () => (open ? t("closeButton") : t("openButton")),
-    [open]
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const icon = useMemo(
+    () =>
+      isOpen ? (
+        <ChevronUpIcon width={"2rem"} />
+      ) : (
+        <ChevronDownIcon width={"2rem"} />
+      ),
+    [isOpen]
   );
 
-  const handleOpenToggle = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
+  const handleOpenToggle = useCallback(
+    (event: React.PointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      setIsOpen((prev) => !prev);
+    },
+    []
+  );
 
   return (
     <StyledEditorContainer
-      className={`code-editor code-editor__${language}`}
-      open={open}
+      className={`code-editor code-editor__${language} code-editor--${
+        isOpen ? "open" : "closed"
+      }`}
+      open={isOpen}
     >
-      <StyledEditorHeader
+      <Summary
+        title={displayName}
+        icon={icon}
+        onClick={handleOpenToggle}
         className={`code-editor_header code-editor_header__${language}`}
-      >
-        <h2>{displayName}</h2>
-        <Button label={label} onClick={handleOpenToggle} />
-      </StyledEditorHeader>
+      />
       <Editor
         value={value}
         onChange={onChange}
