@@ -1,4 +1,4 @@
-import { Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const SiteFooter = styled.footer`
@@ -13,11 +13,11 @@ const currentYear = () => {
 };
 
 const Footer = () => {
+  const { t } = useTranslation("translation", { keyPrefix: "footer" });
+
   return (
     <SiteFooter>
-      <p className="copyright">
-        <Trans i18nKey="footer.copyright" values={{ year: currentYear() }} />
-      </p>
+      <p className="copyright">{t("copyright", { year: currentYear() })}</p>
     </SiteFooter>
   );
 };
