@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { RowProps } from "../interfaces";
 
 const StyledRow = styled.div`
   display: grid;
@@ -12,28 +13,13 @@ const StyledRow = styled.div`
   }
 `;
 
-interface RowProps {
-  children:
-    | boolean
-    | React.ReactElement
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-  className?: string;
-  id?: string;
-  role?: string;
-  'aria-label'?: string;
-  'aria-controls'?: string;
-}
-
 const Row: React.FC<RowProps> = ({
   children,
   className,
   id,
   role,
-  'aria-label': ariaLabel,
-  'aria-controls': ariaControls,
+  "aria-label": ariaLabel,
+  "aria-controls": ariaControls,
 }) => {
   return (
     <StyledRow

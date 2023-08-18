@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
-import styled from 'styled-components';
+import React, { ChangeEvent, useState } from "react";
+import styled from "styled-components";
+import { TextAreaProps } from "../interfaces";
 
 const StyledTextArea = styled.textarea`
   width: 100%;
@@ -11,13 +12,8 @@ const StyledTextArea = styled.textarea`
   font-size: var(--font-size-code);
 `;
 
-interface TextAreaProps {
-  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
-}
-
 const TextArea: React.FC<TextAreaProps> = ({ onChange, placeholder }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) onChange(event);
     setValue(event.target.value);

@@ -1,7 +1,8 @@
-import { Dispatch, FC, SetStateAction } from 'react';
-import styled from 'styled-components';
-import Group from './Group';
-import Label from './Label';
+import { FC } from "react";
+import styled from "styled-components";
+import { CheckboxProps } from "../interfaces";
+import Group from "./Group";
+import Label from "./Label";
 
 const StyledCheckboxGroup = styled(Group)`
   align-items: baseline;
@@ -19,20 +20,8 @@ const StyledCheckbox = styled.input`
   }
 `;
 
-interface CheckboxProps {
-  'aria-label'?: string;
-  id: string;
-  name: string;
-  label: string;
-  checked: boolean;
-  onChange?: Dispatch<SetStateAction<boolean>>;
-  required?: boolean;
-  className?: string;
-  value?: string | number | undefined;
-}
-
 const Checkbox: FC<CheckboxProps> = ({
-  'aria-label': ariaLabel,
+  "aria-label": ariaLabel,
   id,
   name,
   label,
@@ -57,7 +46,7 @@ const Checkbox: FC<CheckboxProps> = ({
         className={className}
         onChange={handleChange}
         required={required}
-        type='checkbox'
+        type="checkbox"
       />
       <Label htmlFor={id} label={label} />
     </StyledCheckboxGroup>

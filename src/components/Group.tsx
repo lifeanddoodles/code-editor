@@ -1,30 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { GroupProps } from "../interfaces";
 
 const StyledGroup = styled.div`
   display: flex;
 `;
 
-export interface GroupProps {
-  children:
-    | boolean
-    | React.ReactElement
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-  className?: string;
-  id?: string;
-  'aria-label'?: string;
-  role?: string;
-}
-
 const Group: React.FC<GroupProps> = ({
-  role = 'group',
+  role = "group",
   children,
   className,
   id,
-  'aria-label': ariaLabel,
+  "aria-label": ariaLabel,
 }) => {
   return (
     <StyledGroup

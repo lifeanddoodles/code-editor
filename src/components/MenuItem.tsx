@@ -1,10 +1,5 @@
-import React from 'react';
-
-interface MenuItemProps {
-  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-  label: string;
-  href: string;
-}
+import React from "react";
+import { MenuItemProps } from "../interfaces";
 
 const MenuItem: React.FC<MenuItemProps> = ({ onClick, label, href }) => {
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -12,7 +7,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ onClick, label, href }) => {
   };
 
   return (
-    <a href={href} onClick={handleClick} role='menuitem'>
+    <a href={href} onClick={handleClick} role="menuitem">
       {label}
     </a>
   );

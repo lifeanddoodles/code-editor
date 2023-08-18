@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { ToolbarProps } from "../interfaces";
 
 const StyledToolbar = styled.div`
   display: flex;
@@ -17,30 +18,16 @@ const StyledToolbar = styled.div`
   }
 `;
 
-interface ToolbarProps {
-  children:
-    | boolean
-    | React.ReactElement
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-  className?: string;
-  id?: string;
-  'aria-label'?: string;
-  'aria-controls'?: string;
-}
-
 const Toolbar: React.FC<ToolbarProps> = ({
   children,
   className,
   id,
-  'aria-label': ariaLabel,
-  'aria-controls': ariaControls,
+  "aria-label": ariaLabel,
+  "aria-controls": ariaControls,
 }) => {
   return (
     <StyledToolbar
-      role='toolbar'
+      role="toolbar"
       className={className}
       id={id}
       aria-label={ariaLabel}

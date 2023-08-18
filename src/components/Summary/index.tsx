@@ -1,12 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-
-interface SummaryProps {
-  title?: string;
-  className?: string;
-  icon?: JSX.Element;
-  onClick?: (event: React.PointerEvent<HTMLButtonElement>) => void;
-}
+import { SummaryProps } from "../../interfaces";
 
 const StyledSummary = styled.summary`
   display: flex;

@@ -1,24 +1,11 @@
-import React, {
-  Dispatch,
-  MouseEventHandler,
-  SetStateAction,
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import useDarkMode from "../hooks/useDarkMode";
-import { ConfigProps, INDENT_VALUES, LANGUAGES } from "../interfaces";
-
-interface ContextProps {
-  html: string;
-  css: string;
-  handleUpdate: (content: string, language: keyof typeof LANGUAGES) => void;
-  config: ConfigProps;
-  setConfig: Dispatch<SetStateAction<ConfigProps>>;
-  darkMode: boolean;
-  toggleDarkMode: MouseEventHandler<HTMLButtonElement>;
-}
+import {
+  ContextProps,
+  ContextProviderProps,
+  INDENT_VALUES,
+  LANGUAGES,
+} from "../interfaces";
 
 const defaultProvider: ContextProps = {
   html: "",
@@ -38,10 +25,6 @@ const defaultProvider: ContextProps = {
 };
 
 export const Context = createContext(defaultProvider);
-
-interface ContextProviderProps {
-  children: React.ReactNode;
-}
 
 export const ContextProvider = ({ children }: ContextProviderProps) => {
   const [config, setConfig] = useState(defaultProvider.config);

@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { ColumnProps } from "../interfaces";
 
 const StyledColumn = styled.div<ColumnProps>`
   display: grid;
@@ -12,24 +13,6 @@ const StyledColumn = styled.div<ColumnProps>`
   }
 `;
 
-interface ColumnProps {
-  children:
-    | boolean
-    | React.ReactElement
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-  className?: string;
-  gridAutoRows?: string;
-  gridTemplateRows?: string;
-  rowGap?: string;
-  id?: string;
-  role?: string;
-  'aria-label'?: string;
-  'aria-controls'?: string;
-}
-
 const Column: React.FC<ColumnProps> = ({
   children,
   className,
@@ -38,8 +21,8 @@ const Column: React.FC<ColumnProps> = ({
   rowGap,
   id,
   role,
-  'aria-label': ariaLabel,
-  'aria-controls': ariaControls,
+  "aria-label": ariaLabel,
+  "aria-controls": ariaControls,
 }) => {
   return (
     <StyledColumn
