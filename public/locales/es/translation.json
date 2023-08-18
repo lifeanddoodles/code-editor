@@ -10,6 +10,9 @@
       "selectTabSize": {
         "label": "Tamaño de tabulador",
         "options": ["2", "4"]
+      },
+      "theme": {
+        "label": "Elige un tema"
       }
     },
     "languageSwitcher": {

@@ -1,7 +1,7 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import useDarkMode from "../../hooks/useDarkMode";
+import { useCodesContentContext } from "../../context";
 import IconButton from "../IconButton";
 
 const DarkModeButtonStyled = styled(IconButton)``;
@@ -10,7 +10,7 @@ const DarkModeButton = () => {
   const { t } = useTranslation("translation", {
     keyPrefix: "header.darkModeToggle",
   });
-  const { darkMode, toggleDarkMode } = useDarkMode();
+  const { darkMode, toggleDarkMode } = useCodesContentContext();
 
   return (
     <DarkModeButtonStyled

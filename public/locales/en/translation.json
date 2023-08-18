@@ -10,6 +10,9 @@
       "selectTabSize": {
         "label": "Tab size",
         "options": ["2", "4"]
+      },
+      "theme": {
+        "label": "Pick a theme"
       }
     },
     "languageSwitcher": {

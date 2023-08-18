@@ -1,11 +1,13 @@
 import React, {
   Dispatch,
+  MouseEventHandler,
   SetStateAction,
   createContext,
   useCallback,
   useContext,
   useState,
 } from "react";
+import useDarkMode from "../hooks/useDarkMode";
 import { ConfigProps, INDENT_VALUES, LANGUAGES } from "../interfaces";
 
 interface ContextProps {
@@ -14,6 +16,8 @@ interface ContextProps {
   handleUpdate: (content: string, language: keyof typeof LANGUAGES) => void;
   config: ConfigProps;
   setConfig: Dispatch<SetStateAction<ConfigProps>>;
+  darkMode: boolean;
+  toggleDarkMode: MouseEventHandler<HTMLButtonElement>;
 }
 
 const defaultProvider: ContextProps = {
@@ -26,8 +30,11 @@ const defaultProvider: ContextProps = {
     lineWrapping: true,
     indentUnit: INDENT_VALUES.TABS,
     lint: true,
+    theme: "oneDark",
   },
   setConfig: () => {},
+  darkMode: false,
+  toggleDarkMode: () => {},
 };
 
 export const Context = createContext(defaultProvider);
@@ -40,6 +47,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
   const [config, setConfig] = useState(defaultProvider.config);
   const [html, setHtml] = useState(defaultProvider.html);
   const [css, setCss] = useState(defaultProvider.css);
+  const { darkMode, toggleDarkMode } = useDarkMode();
 
   const handleUpdate = useCallback(
     (content: string, language: keyof typeof LANGUAGES) => {
@@ -57,7 +65,17 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
   );
 
   return (
-    <Context.Provider value={{ html, css, config, setConfig, handleUpdate }}>
+    <Context.Provider
+      value={{
+        html,
+        css,
+        config,
+        setConfig,
+        handleUpdate,
+        darkMode,
+        toggleDarkMode,
+      }}
+    >
       {children}
     </Context.Provider>
   );

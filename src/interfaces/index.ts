@@ -1,3 +1,6 @@
+import { Extension } from "@codemirror/state";
+import { themes } from "../data/themes";
+
 export enum LANGUAGES {
   CSS = "CSS",
   HTML = "HTML",
@@ -16,15 +19,15 @@ export interface CodeSampleProps {
 
 export interface ConfigProps {
   indentWidth: number;
-  emmet?: boolean;
-  lineWrapping?: boolean;
-  indentUnit?: INDENT_VALUES;
-  lint?: boolean;
+  emmet: boolean;
+  lineWrapping: boolean;
+  indentUnit: INDENT_VALUES;
+  lint: boolean;
+  theme: keyof typeof themes;
 }
 
 export interface EditorSettings extends ConfigProps {
-  theme?: string;
-  gutters?: string[];
+  gutters: string[];
 }
 
 export interface CodeEditorsPaneProps {
@@ -38,8 +41,8 @@ export interface EditorProps {
   value: string;
   onChange: (content: string, language: keyof typeof LANGUAGES) => void;
   theme?: string;
-  extensions?: Array<string | Function | Object>;
-  editorSettings?: EditorSettings | undefined;
+  extensions?: Array<Extension>;
+  editorSettings: EditorSettings;
 }
 
 export interface OptionProps {

@@ -5,6 +5,8 @@ import Checkbox from "../../components/Checkbox";
 import DarkModeButton from "../../components/DarkModeButton";
 import Select from "../../components/Select";
 import Toolbar from "../../components/Toolbar";
+import { useCodesContentContext } from "../../context";
+import { useGetThemes } from "../../data/themes";
 import { selectIndentType, selectTabSize } from "../../data/uiText";
 import { ConfigProps, INDENT_VALUES } from "../../interfaces";
 import { getOptions } from "../../utils";
@@ -31,6 +33,8 @@ const Header = ({
   const [enableLineWrapping, setEnableLineWrapping] = useState(
     config.lineWrapping!
   );
+  const { darkMode } = useCodesContentContext();
+  const themeOptions = useGetThemes(darkMode);
 
   const { t, i18n } = useTranslation("translation", { keyPrefix: "header" });
 
@@ -70,6 +74,12 @@ const Header = ({
           onChange={(event) => handleSelect(event, "indentWidth")}
           disabled={config.indentUnit === INDENT_VALUES.SPACES}
           label={t("toolbar.selectTabSize.label")}
+        />
+        <Select
+          options={themeOptions}
+          value={config.theme}
+          onChange={(event) => handleSelect(event, "theme")}
+          label={t("toolbar.theme.label")}
         />
         <Select
           id="changeLanguage"

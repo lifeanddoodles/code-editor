@@ -30,7 +30,6 @@ const EditorContainer: FC<EditorProps> = ({
   language = LANGUAGES.HTML,
   value,
   onChange,
-  theme = "oneDark",
   extensions,
   editorSettings,
 }) => {
@@ -71,7 +70,6 @@ const EditorContainer: FC<EditorProps> = ({
         onChange={onChange}
         language={language}
         editorSettings={editorSettings}
-        theme={theme}
         extensions={extensions}
       />
     </StyledEditorContainer>

@@ -1,18 +1,19 @@
+/*
+ * Credits: https://codesandbox.io/s/codemirror-6-needs-2el3gd?file=/components/CodeMirror6Instance/CodeMirror6InstanceHooks.js
+ */
+
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { htmlLinter } from "../components/extensions/linters";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { lintGutter, lintKeymap, linter } from "@codemirror/lint";
 import { EditorState, Extension } from "@codemirror/state";
-import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorView, keymap } from "@codemirror/view";
 import { basicSetup } from "codemirror";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useEmmetExtension } from "../components/extensions/emmet";
 import { useExtensions } from "../hooks/useExtensions";
 import { EditorProps, LANGUAGES } from "../interfaces";
-
-const themes: any = { oneDark };
 
 const htmlConfig = {
   matchClosingTags: true,
@@ -29,8 +30,7 @@ export default function useCodeMirror({
   value,
   onChange,
   language = LANGUAGES.HTML,
-  theme = "oneDark",
-  extensions,
+  extensions = [],
   editorSettings,
 }: EditorProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -42,7 +42,7 @@ export default function useCodeMirror({
   });
 
   const emmetExtension = useEmmetExtension(language, editorSettings!, view!);
-  const uiExtensions = useExtensions(editorSettings, view!);
+  const uiExtensions = useExtensions(editorSettings!, view!);
 
   const extensionsAll: Extension[] = useMemo(
     () =>
@@ -51,16 +51,15 @@ export default function useCodeMirror({
          * Order for Emmet & default is important
          * to allow `tab` key indentation to work.
          */
-        emmetExtension,
+        emmetExtension as Extension,
         basicSetup,
         keymap.of([...defaultKeymap, ...lintKeymap, indentWithTab]),
         LANGUAGES_SETUP[language],
         lintGutter(),
         language === LANGUAGES.HTML ? linter(htmlLinter) : [],
         onUpdate,
-        ...(theme !== "default" ? themes[theme] : []),
-        ...(extensions ?? []),
-        ...[uiExtensions],
+        ...extensions,
+        ...(uiExtensions as Extension[]),
       ].filter(Boolean),
     []
   );
