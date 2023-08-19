@@ -7,6 +7,8 @@ export type ButtonProps = DetailedHTMLProps<
 > & {
   label?: string;
   ariaLabel?: string;
+  ariaControls?: string;
+  ariaExpanded?: "true" | "false";
   variant?: string;
 };
 
@@ -56,6 +58,8 @@ const Button: React.FC<ButtonProps> = ({
   name,
   id,
   ariaLabel,
+  ariaControls,
+  ariaExpanded,
   role,
   children,
   className,
@@ -71,6 +75,8 @@ const Button: React.FC<ButtonProps> = ({
       id={id}
       onClick={(event) => handleClick(event)}
       aria-label={ariaLabel}
+      aria-controls={ariaControls}
+      aria-expanded={ariaExpanded}
       role={role}
       className={className}
       variant={variant}

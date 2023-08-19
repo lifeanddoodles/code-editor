@@ -35,7 +35,7 @@ const StyledSelect = styled.select`
 
 const StyledCustomSelect = styled.div`
   width: fit-content;
-  max-width: min(30ch, 50%);
+  max-width: min(30ch, 100%);
   border: 1px solid var(--select-border);
   border-radius: 0.25em;
   padding: 0.25em 0.5em;
