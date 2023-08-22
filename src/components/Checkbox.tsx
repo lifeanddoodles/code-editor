@@ -8,10 +8,6 @@ const StyledCheckboxGroup = styled(Group)`
   align-items: baseline;
   column-gap: 0.5rem;
   margin-block: 1rem;
-
-  label {
-    line-height: 1;
-  }
 `;
 
 const StyledCheckbox = styled.input`

@@ -1,5 +1,11 @@
 import { Cog8ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Checkbox from "../../components/Checkbox";
@@ -12,6 +18,7 @@ import { useCodesContentContext } from "../../context";
 import { useGetThemes } from "../../data/themes";
 import { selectIndentType, selectTabSize } from "../../data/uiText";
 import useResponsive from "../../hooks/useResponsive";
+import useScrollLock from "../../hooks/useScrollLock";
 import { ConfigProps, INDENT_VALUES } from "../../interfaces";
 import { getOptions } from "../../utils";
 
@@ -78,6 +85,21 @@ const SiteHeader = styled.header`
       display: grid;
     }
   }
+
+  @media screen and (min-width: 681px) {
+    .header__toolbar {
+      flex-flow: row;
+    }
+    .header__toolbar--code-options {
+      flex-grow: 1;
+      display: flex;
+    }
+    .header__toolbar--code-options__controls {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 1rem;
+    }
+  }
 `;
 
 const Header = ({
@@ -91,13 +113,10 @@ const Header = ({
     config.lineWrapping!
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { lockScroll, unlockScroll } = useScrollLock();
   const { darkMode } = useCodesContentContext();
   const themeOptions = useGetThemes(darkMode);
   const [isMobile] = useResponsive();
-  /*
-   * TODO: Create custom hook to lock scrolling.
-   * Activate it when isMobileMenuOpen is true.
-   */
 
   const { t, i18n } = useTranslation("translation", { keyPrefix: "header" });
 
@@ -121,6 +140,10 @@ const Header = ({
     () => setIsMobileMenuOpen((prev) => !prev),
     []
   );
+
+  useEffect(() => {
+    isMobileMenuOpen ? lockScroll() : unlockScroll();
+  }, [isMobileMenuOpen]);
 
   return (
     <SiteHeader>

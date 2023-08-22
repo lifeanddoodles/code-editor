@@ -34,7 +34,7 @@ const StyledSelect = styled.select`
 `;
 
 const StyledCustomSelect = styled.div`
-  width: fit-content;
+  width: max-content;
   max-width: min(30ch, 100%);
   border: 1px solid var(--select-border);
   border-radius: 0.25em;
@@ -70,7 +70,7 @@ const StyledCustomSelect = styled.div`
 `;
 
 const StyledCustomGroup = styled(Group)`
-  align-items: center;
+  align-items: baseline;
 `;
 
 const StyledLabel = styled.label`
