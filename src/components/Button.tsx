@@ -1,16 +1,6 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import React from "react";
 import styled from "styled-components";
-
-export type ButtonProps = DetailedHTMLProps<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & {
-  label?: string;
-  ariaLabel?: string;
-  ariaControls?: string;
-  ariaExpanded?: "true" | "false";
-  variant?: string;
-};
+import { ButtonProps } from "../interfaces";
 
 export const UnstyledButton = styled.button`
   border: none;
@@ -59,6 +49,7 @@ const Button: React.FC<ButtonProps> = ({
   id,
   ariaLabel,
   ariaControls,
+  ariaSelected,
   ariaExpanded,
   role,
   children,
@@ -77,6 +68,7 @@ const Button: React.FC<ButtonProps> = ({
       aria-label={ariaLabel}
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
+      aria-selected={ariaSelected}
       role={role}
       className={className}
       variant={variant}

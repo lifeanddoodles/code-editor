@@ -24,4 +24,6 @@ export interface EditorProps {
   theme?: string;
   extensions?: Array<Extension>;
   editorSettings: EditorSettings;
+  id?: string;
+  ariaLabelledby?: string;
 }

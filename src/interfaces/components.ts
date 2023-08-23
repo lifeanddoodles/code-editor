@@ -1,4 +1,23 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import {
+  ButtonHTMLAttributes,
+  ChangeEvent,
+  DetailedHTMLProps,
+  Dispatch,
+  SetStateAction,
+} from "react";
+
+export interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  label?: string;
+  ariaLabel?: string;
+  ariaControls?: string;
+  ariaSelected?: "true" | "false";
+  ariaExpanded?: "true" | "false";
+  variant?: string;
+}
 
 export interface CheckboxProps {
   "aria-label"?: string;

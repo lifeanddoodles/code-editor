@@ -91,19 +91,6 @@ export function useGetThemes(darkMode: boolean) {
     [darkMode]
   );
 
-  // useEffect(() => {
-  //   setTimeout((e: any) => {
-  //     toggleDarkMode(e);
-  //   }, 3000);
-  // }, []);
-
-  console.log(
-    "themeOptionsArray",
-    themeOptionsArray,
-    "isDarkMode useGetThemes",
-    darkMode
-  );
-
   const sortedThemeOptions = createThemeOptions(
     // themeOptions.sort(
     //   (
