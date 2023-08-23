@@ -96,12 +96,18 @@ export interface OptionProps {
   ariaLabel?: string;
 }
 
+export interface OptionGroupProps {
+  label: string;
+  options: OptionProps[];
+}
+
 export interface BaseSelectProps {
   id?: string;
   ariaLabel?: string;
   label?: string;
   disabled?: boolean;
-  options: OptionProps[];
+  options?: OptionProps[];
+  optionGroups?: OptionGroupProps[];
 }
 
 export interface SelectProps extends BaseSelectProps {

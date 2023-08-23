@@ -2,6 +2,7 @@ import { Extension } from "@codemirror/state";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorView } from "codemirror";
 import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   amy,
   ayuLight,
@@ -22,6 +23,7 @@ import {
 } from "thememirror";
 import { useExtensionCompartment } from "../hooks/useExtensionCompartment";
 import { EditorSettings } from "../interfaces";
+import { getOptionGroups } from "../utils";
 
 export const themeOptions = [
   { name: "Amy", value: "amy", variant: "dark" },
@@ -77,34 +79,37 @@ export function createThemeOptions(
 }
 
 export function useGetThemes(darkMode: boolean) {
-  let themeOptionsArray = useMemo(
-    () =>
-      darkMode
-        ? [
-            ...themeOptions.filter((theme) => theme.variant === "dark"),
-            ...themeOptions.filter((theme) => theme.variant === "light"),
-          ]
-        : [
-            ...themeOptions.filter((theme) => theme.variant === "light"),
-            ...themeOptions.filter((theme) => theme.variant === "dark"),
-          ],
+  const { t } = useTranslation("translation", {
+    keyPrefix: "header.toolbar.theme",
+  });
+  const primaryOptions = useMemo(
+    () => (darkMode ? "dark" : "light"),
     [darkMode]
   );
 
-  const sortedThemeOptions = createThemeOptions(
-    // themeOptions.sort(
-    //   (
-    //     a: { name: string; value: string; variant: string },
-    //     b: { name: string; value: string; variant: string }
-    //   ) => {
-    //     if (a.variant === b.variant) {
-    //       return 0;
-    //     }
-    //     return a.variant === b.variant ? 0 : a.variant < b.variant ? -1 : 1;
-    //   }
-    // )
-    themeOptionsArray
+  const secondaryOptions = useMemo(
+    () => (primaryOptions === "dark" ? "light" : "dark"),
+    [primaryOptions]
   );
+
+  function getThemeOptionGroups() {
+    return getOptionGroups([
+      {
+        label: darkMode ? t("dark") : t("light"),
+        options: createThemeOptions(
+          themeOptions.filter((theme) => theme.variant === primaryOptions)
+        ),
+      },
+      {
+        label: t(`${secondaryOptions}`),
+        options: createThemeOptions(
+          themeOptions.filter((theme) => theme.variant === secondaryOptions)
+        ),
+      },
+    ]);
+  }
+
+  const sortedThemeOptions = getThemeOptionGroups();
   return sortedThemeOptions;
 }
 

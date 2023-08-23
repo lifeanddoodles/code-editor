@@ -194,7 +194,7 @@ const Header = ({
               label={t("toolbar.selectTabSize.label")}
             />
             <Select
-              options={themeOptions}
+              optionGroups={themeOptions}
               value={config.theme}
               onChange={(event) => handleSelect(event, "theme")}
               label={t("toolbar.theme.label")}

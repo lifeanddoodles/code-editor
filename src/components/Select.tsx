@@ -1,7 +1,9 @@
 import { Fragment } from "react";
 import styled from "styled-components";
-import { OptionProps, SelectProps } from "../interfaces";
+import { SelectProps } from "../interfaces";
 import Group from "./Group";
+import Option from "./Option";
+import OptionGroup from "./OptionGroup";
 
 const StyledSelect = styled.select`
   appearance: none;
@@ -79,18 +81,11 @@ const StyledLabel = styled.label`
   }
 `;
 
-const Option = ({ label, value, ariaLabel }: OptionProps) => {
-  return (
-    <option value={value} aria-label={ariaLabel}>
-      {label}
-    </option>
-  );
-};
-
 const Select = ({
   label,
   ariaLabel,
   options,
+  optionGroups,
   value,
   onChange,
   id,
@@ -113,12 +108,18 @@ const Select = ({
           onChange={handleChange}
           disabled={disabled}
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <Option
               label={option.label}
               value={option.value}
               ariaLabel={option.ariaLabel}
               key={option.value}
+            />
+          ))}
+          {optionGroups?.map((optionGroup) => (
+            <OptionGroup
+              label={optionGroup.label}
+              options={optionGroup.options}
             />
           ))}
         </StyledSelect>

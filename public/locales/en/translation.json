@@ -12,7 +12,9 @@
         "options": ["2", "4"]
       },
       "theme": {
-        "label": "Pick a theme"
+        "label": "Pick a theme",
+        "dark": "Dark mode",
+        "light": "Light mode"
       }
     },
     "languageSwitcher": {

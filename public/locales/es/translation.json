@@ -12,7 +12,9 @@
         "options": ["2", "4"]
       },
       "theme": {
-        "label": "Elige un tema"
+        "label": "Elige un tema",
+        "dark": "Modo oscuro",
+        "light": "Modo claro"
       }
     },
     "languageSwitcher": {

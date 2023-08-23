@@ -1,5 +1,10 @@
 import { CODE_SAMPLES } from "./data/code";
-import { CodeSampleProps, LANGUAGES, OptionProps } from "./interfaces";
+import {
+  CodeSampleProps,
+  LANGUAGES,
+  OptionGroupProps,
+  OptionProps,
+} from "./interfaces";
 
 export const getOptions = (options: OptionProps[]) =>
   options.map((option) => ({
@@ -7,6 +12,13 @@ export const getOptions = (options: OptionProps[]) =>
     value: option.value,
     ariaLabel: option.ariaLabel,
   }));
+
+export const getOptionGroups = (optionGroups: OptionGroupProps[]) => {
+  return optionGroups.map((optionGroup) => ({
+    label: optionGroup.label,
+    options: getOptions(optionGroup.options),
+  }));
+};
 
 export function getLanguageSetup(
   lang: keyof typeof LANGUAGES
