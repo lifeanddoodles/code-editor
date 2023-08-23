@@ -13,9 +13,10 @@ const StyledContainer = styled.main`
 
   .code-wrapper {
     height: 100%;
-  }
 
-  @media screen and (min-width: 640px) {
+    @media screen and (max-width: 640px) {
+      grid-auto-rows: 1fr;
+    }
   }
 `;
 

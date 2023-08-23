@@ -4,6 +4,13 @@ import { EditorProps, LANGUAGES } from "../../interfaces";
 import Editor from "../Editor";
 
 const StyledEditorContainer = styled("div")`
+  height: 100%;
+
+  .code-editor_ref,
+  .cm-editor {
+    height: 100%;
+  }
+
   &.code-editor--hidden {
     display: none;
   }
