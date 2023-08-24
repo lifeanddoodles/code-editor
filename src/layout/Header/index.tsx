@@ -190,6 +190,7 @@ const Header = ({
               options={getOptions(selectTabSize?.options)}
               value={config.indentWidth}
               onChange={(event) => handleSelect(event, "indentWidth")}
+              // TODO: make disabled styles more noticeable
               disabled={config.indentUnit === INDENT_VALUES.SPACES}
               label={t("toolbar.selectTabSize.label")}
             />

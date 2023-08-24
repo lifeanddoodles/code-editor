@@ -29,9 +29,12 @@
   "codePanes": {
     "closeButton": "Cerrar",
     "openButton": "Abrir",
+    "copyButton": "Copiar contenido",
+    "copySuccessful": "Copiado",
     "instructions": {
       "HTML": "Empieza a editar tu HTML aquí",
-      "CSS": "Escribe estilos CSS aquí"
+      "CSS": "Escribe estilos CSS aquí",
+      "empty": "Pega tu código para iniciar a editar"
     },
     "errors": {
       "notFound": "Error: ejemplos de código no encontrados"

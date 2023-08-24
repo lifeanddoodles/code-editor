@@ -29,9 +29,12 @@
   "codePanes": {
     "closeButton": "Close",
     "openButton": "Open",
+    "copyButton": "Copy content",
+    "copySuccessful": "Copied",
     "instructions": {
       "HTML": "Start editing your HTML here",
-      "CSS": "Write CSS styles here"
+      "CSS": "Write CSS styles here",
+      "empty": "Paste your code to start editing"
     },
     "errors": {
       "notFound": "Error: no code samples found"

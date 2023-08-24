@@ -33,10 +33,7 @@ const CodeEditorsList = ({
     <>
       {codesList?.map((codeLang: CodeSampleProps) => {
         const codeObj = getLanguageSetup(codeLang.language);
-        const instructions = t(`instructions.${codeLang.language}`);
-        const [content, setContent] = useState(
-          codeObj?.getInitialCode(instructions) || ""
-        );
+        const [content, setContent] = useState("");
 
         const handleUpdate = useCallback(
           (content: string, language: keyof typeof LANGUAGES) => {

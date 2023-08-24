@@ -3,6 +3,7 @@ import {
   ChangeEvent,
   DetailedHTMLProps,
   Dispatch,
+  RefObject,
   SetStateAction,
 } from "react";
 
@@ -51,6 +52,9 @@ export interface IframeProps {
   title?: string;
   width?: string | number;
   height?: string | number;
+  ref?: RefObject<HTMLIFrameElement>;
+  forwardRef?: RefObject<HTMLIFrameElement>;
+  onClick?: (ref: RefObject<HTMLIFrameElement>) => void;
 }
 
 export interface MenuItemProps {

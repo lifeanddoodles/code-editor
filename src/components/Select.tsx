@@ -118,6 +118,7 @@ const Select = ({
           ))}
           {optionGroups?.map((optionGroup) => (
             <OptionGroup
+              key={optionGroup.label}
               label={optionGroup.label}
               options={optionGroup.options}
             />
